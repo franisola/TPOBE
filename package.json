@@ -1,0 +1,26 @@
+{
+  "name": "tpoapi",
+  "version": "1.0.0",
+  "description": "api project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016\u0016\u0016\u001b[2~\u0016\u001b[2~https://github.com/franisola/TPOAPI.git"
+  },
+  "keywords": [
+    "node",
+    "js"
+  ],
+  "author": "grupo21",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  }
+}
