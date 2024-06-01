@@ -2,10 +2,9 @@
   "name": "tpoapi",
   "version": "1.0.0",
   "description": "api project",
-  "main": "index.js",
-  "type": "module",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon src/app.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +17,9 @@
   "author": "grupo21",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.2"
