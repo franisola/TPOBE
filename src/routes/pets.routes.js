@@ -11,8 +11,8 @@ router.post('/pets', authRequired, roleClient, validateSchema(petSchema), create
 
 router.get('/pets', authRequired, getPets);
 
-router.get('/pets/:id', roleClient, authRequired, getPet);
+router.get('/pets/:id', authRequired, getPet);
 
-router.delete('/pets/:id', roleClient, authRequired, deletePet);
+router.delete('/pets/:id', authRequired, roleClient, deletePet);
 
 export default router;

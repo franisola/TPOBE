@@ -12,7 +12,6 @@ export const createService = async (req, res) => {
 		costoHR,
 		estado,
 		descripcion,
-		calificacion: 0,
 		user: req.user.id,
 	});
 
@@ -36,7 +35,12 @@ export const getService = async (req, res) => {
 
 	try {
 		const service = await Service.findById({ _id: id }).populate('user');
-		res.status(200).json(service);
+		const comments = await Comentario.find({ service: id });
+
+		const calification = comments.reduce((acc, comment) => acc + comment.calificacion, 0) / comments.length;
+
+
+		res.status(200).json({service, calification});
 	} catch (error) {
 		res.status(404).json({ message: 'Service not found' });
 	}
@@ -96,33 +100,3 @@ export const getServiceQuery = async (req, res) => {
 
 };
 
-
-export const createComment = async (req, res) => {
-
-
-    const { comentario, calificacion } = req.body;
-
-    try {
-        const newComment = await Comentario.create({
-            user: req.user.id,
-            service: req.params.id,
-            comentario,
-            calificacion,
-            fecha: new Date() // Date.now(),
-        });
-
-        
-
-        const commentSaved = await newComment.save();
-
-        res.status(200).json({
-            id: commentSaved._id,
-            content: commentSaved.comentario,
-            createdAt: commentSaved.createdAt,
-            updatedAt: commentSaved.updatedAt,
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-
-};

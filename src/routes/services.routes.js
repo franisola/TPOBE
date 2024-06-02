@@ -6,7 +6,7 @@ import {
 	updateService,
 	deleteService,
 	getServiceQuery,
-	createComment,
+
 } from '../controllers/service.controller.js';
 import { authRequired } from '../middlewares/validateToken.js';
 import { roleClient, rolePetSitter } from '../middlewares/validateRoleUser.middleware.js';
@@ -19,7 +19,7 @@ router.get('/services', authRequired, getServices);
 router.get('/services/:id', authRequired, getService);
 router.get('/services', authRequired, getServiceQuery);
 router.put('/services/:id', authRequired, rolePetSitter, validateSchema(updateServiceSchema), updateService);
-router.delete('/services', authRequired, rolePetSitter, deleteService);
+router.delete('/services/:id', authRequired, rolePetSitter, deleteService);
 
 
 
