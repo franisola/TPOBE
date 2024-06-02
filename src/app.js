@@ -1,24 +1,22 @@
-const express = require('express');
-
-const mongoose = require('mongoose');
-const mongodb = "mongodb://127.0.0.1/TPOAPI";
-
+import express from 'express';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 const app = express();
+export default app;
 
+// Midlewares
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
+// Routes
 
+import usersRoute from './routes/users.routes.js';
+import petsRoute from './routes/pets.routes.js';
+import servicesRoute from './routes/services.routes.js';
 
-async function main(){
-    await mongoose.connect(mongodb);
-} 
-
-main()
-.then(() => {
-    console.log("Connected to database")
-    app.listen(3000, () => {
-        console.log("Server is running on port 3000");
-    })
-})
-.catch(err => console.log(err)); 
-
+app.use(usersRoute);
+app.use(petsRoute);
+app.use(servicesRoute);
