@@ -16,7 +16,9 @@ app.use(cookieParser());
 import usersRoute from './routes/users.routes.js';
 import petsRoute from './routes/pets.routes.js';
 import servicesRoute from './routes/services.routes.js';
+import commentsRoute from './routes/comments.routes.js';
 
 app.use(usersRoute);
 app.use(petsRoute);
 app.use(servicesRoute);
+app.use(commentsRoute);

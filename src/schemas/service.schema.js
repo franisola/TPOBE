@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { categoria, frecuencia, tipoMascota, estado } from '../config.js';
 
 export const createServiceSchema = z.object({
 	nombre: z
@@ -12,35 +13,21 @@ export const createServiceSchema = z.object({
 		.string({
 			message: 'La categoria debe ser un string',
 		})
-		.refine((value) => ['Cuidado de mascotas', 'Adiestramiento', 'Paseos'].includes(value)),
+		.refine((value) => categoria.includes(value)),
 
 	frecuencia: z
 		.string({
 			message: 'La frecuencia debe ser un string',
 		})
-		.refine((value) => ['Unica', 'Diario', 'Semanal', 'Mensual'].includes(value)),
+		.refine((value) => frecuencia.includes(value)),
 
 	tipoMascota: z
 		.string({
 			message: 'El tipo de mascota debe ser un string',
 		})
-		.refine(
-			(value) =>
-				[
-					'Perro',
-					'Gato',
-					'Conejo',
-					'Hamster',
-					'Pez',
-					'Huron',
-					'Cobayo',
-					'Pajaro',
-					'Tortuga',
-				].includes(value),
-			{
-				message: 'Tipo invalido',
-			}
-		),
+		.refine((value) => tipoMascota.includes(value), {
+			message: 'Tipo invalido',
+		}),
 
 	costoHR: z
 		.number({
@@ -52,7 +39,7 @@ export const createServiceSchema = z.object({
 		.string({
 			message: 'El estado debe ser un string',
 		})
-		.refine((value) => ['Publicado', 'No publicado'].includes(value), {
+		.refine((value) => estado.includes(value), {
 			message: 'Tipo invalido',
 		}),
 
@@ -77,37 +64,23 @@ export const updateServiceSchema = z.object({
 		.string({
 			message: 'La categoria debe ser un string',
 		})
-		.refine((value) => ['Cuidado de mascotas', 'Adiestramiento', 'Paseos'].includes(value))
+		.refine((value) => categoria.includes(value))
 		.optional(),
 
 	frecuencia: z
 		.string({
 			message: 'La frecuencia debe ser un string',
 		})
-		.refine((value) => ['Unica', 'Diario', 'Semanal', 'Mensual'].includes(value))
+		.refine((value) => frecuencia.includes(value))
 		.optional(),
 
 	tipoMascota: z
 		.string({
 			message: 'El tipo de mascota debe ser un string',
 		})
-		.refine(
-			(value) =>
-				[
-					'Perro',
-					'Gato',
-					'Conejo',
-					'Hamster',
-					'Pez',
-					'Huron',
-					'Cobayo',
-					'Pajaro',
-					'Tortuga',
-				].includes(value),
-			{
-				message: 'Tipo invalido',
-			}
-		)
+		.refine((value) => tipoMascota.includes(value), {
+			message: 'Tipo invalido',
+		})
 		.optional(),
 
 	costoHR: z
@@ -121,7 +94,7 @@ export const updateServiceSchema = z.object({
 		.string({
 			message: 'El estado debe ser un string',
 		})
-		.refine((value) => ['Publicado', 'No publicado'].includes(value), {
+		.refine((value) => estado.includes(value), {
 			message: 'Tipo invalido',
 		})
 		.optional(),
@@ -134,7 +107,5 @@ export const updateServiceSchema = z.object({
 		.max(255)
 		.optional(),
 
-
-	calificacion: z.undefined()
-
+	calificacion: z.undefined(),
 });

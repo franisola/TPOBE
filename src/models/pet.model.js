@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { tipoMascota } from '../config.js';
 
 const PetSchema = new mongoose.Schema(
 	{
@@ -11,17 +12,7 @@ const PetSchema = new mongoose.Schema(
 			type: String,
 			required: [true],
 			trim: true,
-			enum: [
-				'Perro',
-				'Gato',
-				'Conejo',
-				'Hamster',
-				'Pez',
-				'Huron',
-				'Cobayo',
-				'Pajaro',
-				'Tortuga',
-			],
+			enum: tipoMascota,
 		},
 		user: {
 			type: mongoose.Schema.Types.ObjectId,

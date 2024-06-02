@@ -56,7 +56,9 @@ export const registerSchema = z.object({
 		.min(3, {
 			message: 'El domicilio debe tener al menos 3 caracteres',
 		}),
+	role: z.number().int().finite().gte(1).lte(2), // No se puede enviar en el registro
 
+	
 	descripcion: z.undefined(), // No se puede enviar en el registro
 	zona: z.undefined(), // No se puede enviar en el registro
 	foto: z.undefined(), // No se puede enviar en el registro

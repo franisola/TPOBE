@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { categoria, frecuencia, tipoMascota, estado } from '../config.js';
 
 const serviceSchema = new mongoose.Schema({
 	nombre: {
@@ -10,19 +11,19 @@ const serviceSchema = new mongoose.Schema({
 		type: String,
 		required: [true, 'Please provide a category'],
 		trim: true,
-		enum: ['Cuidado de mascotas', 'Adiestramiento', 'Paseos'],
+		enum: categoria,
 	},
 	frecuencia: {
 		type: String,
 		required: [true, 'Please provide a frequency'],
 		trim: true,
-		enum: ['Unica', 'Diario', 'Semanal', 'Mensual'],
+		enum: frecuencia,
 	},
 	tipoMascota: {
 		type: String,
 		required: [true, 'Please provide a pet type'],
 		trim: true,
-		enum: ['Perro', 'Gato', 'Conejo', 'Hamster', 'Pez', 'Huron', 'Cobayo', 'Pajaro', 'Tortuga'],
+		enum: tipoMascota,
 	},
 	costoHR: {
 		type: Number,
@@ -31,7 +32,7 @@ const serviceSchema = new mongoose.Schema({
 	estado: {
 		type: String,
 		default: 'Publicado',
-		enum: ['Publicado', 'No Publicado'],
+		enum: estado,
 	},
 	descripcion: {
 		type: String,

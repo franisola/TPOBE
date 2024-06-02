@@ -1,4 +1,5 @@
 import Service from '../models/service.model.js';
+import Comentario from '../models/comment.model.js';
 
 export const createService = async (req, res) => {
 	const { nombre, categoria, frecuencia, tipoMascota, costoHR, estado, descripcion } = req.body;
@@ -11,15 +12,14 @@ export const createService = async (req, res) => {
 		costoHR,
 		estado,
 		descripcion,
+		calificacion: 0,
 		user: req.user.id,
 	});
 
-	try {
-		const serviceSaved = await newService.save();
-		res.status(201).json(serviceSaved);
-	} catch (error) {
-		res.status(400).json({ message: 'Error saving the service' });
-	}
+	
+	const serviceSaved = await newService.save();
+	res.status(201).json(serviceSaved);
+
 };
 
 export const getServices = async (req, res) => {
@@ -93,5 +93,36 @@ export const getServiceQuery = async (req, res) => {
 	} catch (error) {
 		res.status(404).json({ message: 'Services not found' });
 	}
+
+};
+
+
+export const createComment = async (req, res) => {
+
+
+    const { comentario, calificacion } = req.body;
+
+    try {
+        const newComment = await Comentario.create({
+            user: req.user.id,
+            service: req.params.id,
+            comentario,
+            calificacion,
+            fecha: new Date() // Date.now(),
+        });
+
+        
+
+        const commentSaved = await newComment.save();
+
+        res.status(200).json({
+            id: commentSaved._id,
+            content: commentSaved.comentario,
+            createdAt: commentSaved.createdAt,
+            updatedAt: commentSaved.updatedAt,
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 
 };
