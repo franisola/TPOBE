@@ -14,3 +14,4 @@ export const tipoMascota = [
 export const categoria = ['Cuidado de mascotas', 'Adiestramiento', 'Paseos'];
 export const frecuencia = ['Unica', 'Diario', 'Semanal', 'Mensual'];
 export const estado = ['Publicado', 'No Publicado'];
+export const contractState = ['Solicitado', 'Aceptado', 'Rechazado', 'Finalizado'];

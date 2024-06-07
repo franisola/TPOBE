@@ -20,7 +20,8 @@ export const createPet = async (req, res) => {
 export const getPets = async (req, res) => {
 	try {
 		const pets = await Pet.find({ user: req.user.id }).populate('user');
-		res.status(200).json(pets);
+		res.status(200).json({pets: pets, date: Date.now()});
+		console.log(new Date());
 	} catch (error) {
 		res.status(404).json({ message: 'Pets not found' });
 	}

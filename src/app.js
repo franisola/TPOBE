@@ -17,8 +17,10 @@ import usersRoute from './routes/users.routes.js';
 import petsRoute from './routes/pets.routes.js';
 import servicesRoute from './routes/services.routes.js';
 import commentsRoute from './routes/comments.routes.js';
+import contractsRoute from './routes/contracts.routes.js';
 
 app.use(usersRoute);
 app.use(petsRoute);
 app.use(servicesRoute);
 app.use(commentsRoute);
+app.use(contractsRoute);
