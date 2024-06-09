@@ -2,7 +2,7 @@ import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import { createAccessToken } from '../libs/jwt.js';
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
 	const { nombre, apellido, email, contraseña, telefono, domicilio, role } = req.body;
 
 	try {
@@ -19,28 +19,18 @@ export const register = async (req, res) => {
 		});
 
 		const userSaved = await newUser.save();
-		const token = await createAccessToken({
-			id: userSaved._id,
-			nombre: userSaved.nombre,
-			apellido: userSaved.apellido,
-			email: userSaved.email,
-			role: userSaved.role,
-		});
+		const token = await createAccessToken({ id: userSaved._id });
+		const { contraseña: hashedPassword, ...user } = userSaved._doc;
 
-		res.cookie('token', token);
-		res.status(200).json({
-			id: userSaved._id,
-			nombre: userSaved.nombre,
-			email: userSaved.email,
-			createdAt: userSaved.createdAt,
-			updatedAt: userSaved.updatedAt,
-		});
+		const expires = new Date(Date.now() + 24 * 3600000);
+
+		res.cookie('token', token, { expires }).status(200).json(user);
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
 	const { email, contraseña } = req.body;
 
 	try {
@@ -52,32 +42,19 @@ export const login = async (req, res) => {
 
 		if (!isMatch) return res.status(400).json({ message: 'Contraseña incorrecta' });
 
-		const token = await createAccessToken({
-			id: userFound._id,
-			nombre: userFound.nombre,
-			apellido: userFound.apellido,
-			email: userFound.email,
-			role: userFound.role,
-		});
+		const token = await createAccessToken({ id: userFound._id });
+		const { contraseña: hashedPassword, ...user } = userFound._doc;
 
-		res.cookie('token', token);
-		res.status(200).json({
-			id: userFound._id,
-			nombre: userFound.nombre,
-			email: userFound.email,
-			createdAt: userFound.createdAt,
-			updatedAt: userFound.updatedAt,
-		});
+		const expires = new Date(Date.now() + 24 * 3600000);
+
+		res.cookie('token', token, { expires }).status(200).json(user);
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 };
 
 export const logout = (req, res) => {
-	res.cookie('token', '', {
-		expires: new Date(0),
-	});
-	return res.sendStatus(200);
+	res.clearCookie('token').status(200).json('Logged out');
 };
 
 export const profile = async (req, res) => {
@@ -99,4 +76,3 @@ export const editProfile = async (req, res) => {
 
 	res.status(200).json(user);
 };
-

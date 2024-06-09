@@ -11,7 +11,7 @@ router.post('/register', authNotRequired, validateSchema(registerSchema), regist
 
 router.post('/login', authNotRequired, validateSchema(loginSchema), login);
 
-router.post('/logout', authRequired, logout);
+router.get('/logout', authRequired, logout);
 
 router.get('/profile', authRequired, profile);
 

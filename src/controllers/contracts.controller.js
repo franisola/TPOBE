@@ -1,5 +1,4 @@
 import Contract from "../models/contract.models.js";
-import Service from "../models/service.model.js";
 
 export const createContract = async (req, res) => {
     const { fechaInicio, fechaFin, horarioReferencia, motivoDelServicio  } = req.body;
@@ -29,15 +28,13 @@ export const createContract = async (req, res) => {
 export const getContracts = async (req, res) => {
     const { id } = req.user;
     try {
-
         const contracts = await Contract.find({ idPetSitter: id });
         res.status(200).json(contracts);
     } catch (error) {
         res.status(404).json({ message: "Contracts not found" });
     }
-
-
 }
+
 export const getContract = async (req, res) => {
     const { id } = req.params;
     try {

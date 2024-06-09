@@ -1,4 +1,3 @@
-import e from 'express';
 import { z } from 'zod';
 
 export const registerSchema = z.object({
@@ -42,10 +41,10 @@ export const registerSchema = z.object({
 		.startsWith('11', {
 			message: 'El teléfono es invalido',
 		})
-		.min(9, {
+		.min(10, {
 			message: 'El teléfono es invalido',
 		})
-		.max(9, {
+		.max(10, {
 			message: 'El teléfono es invalido',
 		}),
 
@@ -56,7 +55,9 @@ export const registerSchema = z.object({
 		.min(3, {
 			message: 'El domicilio debe tener al menos 3 caracteres',
 		}),
-	role: z.number().int().finite().gte(1).lte(2), // No se puede enviar en el registro
+	role: z.number(
+		{message: 'El role debe ser un número'},
+	).int().finite().gte(1).lte(2), // No se puede enviar en el registro
 
 	
 	descripcion: z.undefined(), // No se puede enviar en el registro
@@ -78,7 +79,7 @@ export const loginSchema = z.object({
 			message: 'La contraseña debe ser un string',
 		})
 		.min(3, {
-			message: 'La contraseña debe tener al menos 6 caracteres',
+			message: 'La contraseña debe tener al menos 3 caracteres',
 		})
 		.max(20, {
 			message: 'La contraseña debe tener como máximo 20 caracteres',
