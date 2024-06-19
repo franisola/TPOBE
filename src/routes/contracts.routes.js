@@ -10,7 +10,7 @@ import { roleClient, rolePetSitter } from '../middlewares/validateRoleUser.middl
 const router = Router();
 
 
-router.post('/services/:id_service/contracts', authRequired, roleClient, validateSchema(createContractSchema), createContract);
+router.post('/:id_service/contracts', authRequired, roleClient, validateSchema(createContractSchema), createContract);
 router.get('/contracts', authRequired, rolePetSitter, getContracts);
 router.get('/contracts/:id', authRequired, rolePetSitter, getContract); 
 router.put('/contracts/:id', authRequired, rolePetSitter, validateSchema(updateContractSchema), updateContract);   

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import { barriosCABA } from '../config.js';
 
 const UserSchema = new mongoose.Schema(
 	{
@@ -45,6 +45,7 @@ const UserSchema = new mongoose.Schema(
 		zona: {
 			type: String,
 			trim: true,
+			enum: barriosCABA,
 		},
 		role: {
 			type: Number,

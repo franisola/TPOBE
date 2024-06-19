@@ -1,48 +1,52 @@
 import Pet from '../models/pet.model.js';
+import { tipoMascota as list } from '../config.js';
 
-export const createPet = async (req, res) => {
+export const createPet = async (req, res, next) => {
 	const { nombre, tipoMascota } = req.body;
 
 	const newPet = new Pet({
 		nombre,
-		tipoMascota,
+		tipoMascota: list[tipoMascota],
 		user: req.user.id,
 	});
-
+	// : req.user.id,
 	try {
 		const petSaved = await newPet.save();
 		res.status(201).json(petSaved);
 	} catch (error) {
-		res.status(400).json({ message: 'Error saving the pet' });
+		next(error);
 	}
 };
 
-export const getPets = async (req, res) => {
+export const getPets = async (req, res, next) => {
 	try {
 		const pets = await Pet.find({ user: req.user.id }).populate('user');
-		res.status(200).json({pets: pets, date: Date.now()});
-		console.log(new Date());
+		res.status(200).json({ pets });
 	} catch (error) {
-		res.status(404).json({ message: 'Pets not found' });
+		next(error);
 	}
 };
 
-export const getPet = async (req, res) => {
+export const getPet = async (req, res, next) => {
 	const { id } = req.params;
-
 	try {
 		const pet = await Pet.findById({ _id: id }).populate('user');
 		res.status(200).json(pet);
 	} catch (error) {
-		res.status(404).json({ message: 'Pet not found' });
+		next(error);
 	}
 };
 
-export const deletePet = async (req, res) => {
+export const deletePet = async (req, res, next) => {
 	const { id } = req.params;
-	const pet = await Pet.findByIdAndDelete(id);
-	if (!pet) {
-		return res.status(404).json({ message: 'Pet not found' });
+
+	try {
+		const pet = await Pet.findByIdAndDelete(id);
+
+		if (!pet) return next({ message: 'Pet not found', statusCode: 404 });
+
+		res.status(201).json({success: true, message: 'Pet deleted'});
+	} catch (error) {
+		return next(error);
 	}
-	res.status(204).json({ message: 'Pet deleted' });
 };

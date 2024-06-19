@@ -39,6 +39,10 @@ const serviceSchema = new mongoose.Schema({
 		required: [true, 'Please provide a description'],
 		trim: true,
 	},
+	calificacion:{
+		type: Number,
+		default: 1,
+	},
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',

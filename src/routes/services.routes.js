@@ -6,6 +6,7 @@ import {
 	updateService,
 	deleteService,
 	getServiceQuery,
+	// getAssociatedServices
 
 } from '../controllers/service.controller.js';
 import { authRequired } from '../middlewares/validateToken.js';
@@ -15,14 +16,19 @@ import { createServiceSchema, updateServiceSchema } from '../schemas/service.sch
 const router = Router();
 
 router.post('/services', authRequired, rolePetSitter, validateSchema(createServiceSchema), createService);
-router.get('/services', authRequired, getServices);
+//router.post('/services', createService);
+
+router.get('/:idUser/services', authRequired, getServices);
 router.get('/services/:id', authRequired, getService);
-router.get('/services', authRequired, getServiceQuery);
 router.put('/services/:id', authRequired, rolePetSitter, validateSchema(updateServiceSchema), updateService);
 router.delete('/services/:id', authRequired, rolePetSitter, deleteService);
 
 
+router.get('/services', authRequired, getServiceQuery);
 
-//router.post('/services/:id/comments', authRequired, createComment);
+
+// router.get('/associated-services', authRequired, getAssociatedServices);
+
+
 
 export default router;

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { barriosCABA } from '../config.js';
 
 export const registerSchema = z.object({
 	nombre: z
@@ -55,11 +56,8 @@ export const registerSchema = z.object({
 		.min(3, {
 			message: 'El domicilio debe tener al menos 3 caracteres',
 		}),
-	role: z.number(
-		{message: 'El role debe ser un número'},
-	).int().finite().gte(1).lte(2), // No se puede enviar en el registro
+	role: z.number({ message: 'El role debe ser un número' }).int().finite().gte(1).lte(2), // No se puede enviar en el registro
 
-	
 	descripcion: z.undefined(), // No se puede enviar en el registro
 	zona: z.undefined(), // No se puede enviar en el registro
 	foto: z.undefined(), // No se puede enviar en el registro
@@ -115,14 +113,10 @@ export const editProfileSchema = z.object({
 		.optional(),
 
 	zona: z
-		.string({
-			message: 'La zona debe ser un string',
-		})
-		.min(3, {
-			message: 'La zona debe tener al menos 3 caracteres',
-		})
+		.number()
+		.min(0)
+        .max(barriosCABA.length - 1)
 		.optional(),
-
 	telefono: z
 		.string({
 			message: 'El teléfono es invalido',
@@ -130,10 +124,10 @@ export const editProfileSchema = z.object({
 		.startsWith('11', {
 			message: 'El teléfono es invalido',
 		})
-		.min(9, {
+		.min(10, {
 			message: 'El teléfono es invalido',
 		})
-		.max(9, {
+		.max(10, {
 			message: 'El teléfono es invalido',
 		})
 		.optional(),
@@ -153,4 +147,66 @@ export const editProfileSchema = z.object({
 	apellido: z.undefined(), // No se puede enviar en la edición de perfil
 	contraseña: z.undefined(), // No se puede enviar en la edición de perfil
 	role: z.undefined(), // No se puede enviar en la edición de perfil
+});
+
+export const verifyUserSchema = z.object({
+	email: z
+		.string({
+			message: 'El email debe ser un string',
+		})
+		.email({
+			message: 'El email debe ser un email válido',
+		}),
+
+	telefono: z
+		.string({
+			message: 'El teléfono es invalido',
+		})
+		.startsWith('11', {
+			message: 'El teléfono es invalido',
+		})
+		.min(10, {
+			message: 'El teléfono es invalido',
+		})
+		.max(10, {
+			message: 'El teléfono es invalido',
+		}),
+
+	nombre: z.undefined(), // No se puede enviar en el login
+	apellido: z.undefined(), // No se puede enviar en el login
+	contraseña: z.undefined(), // No se puede enviar en el login
+	domicilio: z.undefined(), // No se puede enviar en el login
+	zona: z.undefined(), // No se puede enviar en el login
+	descripcion: z.undefined(), // No se puede enviar en el login
+	foto: z.undefined(), // No se puede enviar en el login
+	role: z.undefined(), // No se puede enviar en el login
+});
+
+export const resetPasswordSchema = z.object({
+	email: z
+		.string({
+			message: 'El email debe ser un string',
+		})
+		.email({
+			message: 'El email debe ser un email válido',
+		}),
+
+	contraseña: z
+		.string({
+			message: 'La contraseña debe ser un string',
+		})
+		.min(3, {
+			message: 'La contraseña debe tener al menos 3 caracteres',
+		})
+		.max(20, {
+			message: 'La contraseña debe tener como máximo 20 caracteres',
+		}),
+
+	nombre: z.undefined(), // No se puede enviar en el login
+	apellido: z.undefined(), // No se puede enviar en el login
+	domicilio: z.undefined(), // No se puede enviar en el login
+	zona: z.undefined(), // No se puede enviar en el login
+	descripcion: z.undefined(), // No se puede enviar en el login
+	foto: z.undefined(), // No se puede enviar en el login
+	role: z.undefined(), // No se puede enviar en el login
 });

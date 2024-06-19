@@ -50,7 +50,8 @@ export const createServiceSchema = z.object({
 		.min(3)
 		.max(255),
 	
-	user: z.undefined()
+	user: z.undefined(),
+	calificacion: z.undefined(),
 });
 
 export const updateServiceSchema = z.object({
@@ -109,7 +110,8 @@ export const updateServiceSchema = z.object({
 		.max(255)
 		.optional(),
 
-	user: z.undefined()
+	user: z.undefined(),
+	calificacion: z.undefined(),
 });
 
 

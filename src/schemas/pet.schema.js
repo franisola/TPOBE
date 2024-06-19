@@ -8,7 +8,9 @@ export const petSchema = z.object({
 		})
 		.min(1)
 		.max(255),
-	tipoMascota: z.string().refine((value) => tipoMascota.includes(value), {
-		message: 'Tipo invalido',
-	}),
+	tipoMascota: z
+
+		.number()
+		.min(0)
+		.max(tipoMascota.length - 1),
 });
