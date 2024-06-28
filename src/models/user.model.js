@@ -47,7 +47,6 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			trim: true,
 			enum: barriosCABA,
-            default: '',
 		},
 		role: {
 			type: Number,
