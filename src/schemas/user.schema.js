@@ -4,21 +4,29 @@ import { barriosCABA } from '../config.js';
 export const registerSchema = z.object({
 	nombre: z
 		.string({
-			message: 'El nombre debe ser un string',
+			message: 'Debes completar este campo',
 		})
-		.min(3)
-		.max(255),
+		.min(3, {
+            message: 'El nombre debe tener al menos 3 caracteres',
+        })
+		.max(30, {
+            message: 'El nombre debe tener como máximo 30 caracteres',
+        }),
 
 	apellido: z
 		.string({
-			message: 'El apellido debe ser un string',
+			message: 'Debes completar este campo',
 		})
-		.min(3)
-		.max(255),
+		.min(3, {
+            message: 'El apellido debe tener al menos 3 caracteres',
+        })
+		.max(30, {
+            message: 'El apellido debe tener como máximo 30 caracteres',
+        }),
 
 	email: z
 		.string({
-			message: 'El email debe ser un string',
+			message: 'Debes completar este campo',
 		})
 		.email({
 			message: 'El email debe ser un email válido',
@@ -26,9 +34,9 @@ export const registerSchema = z.object({
 
 	contraseña: z
 		.string({
-			message: 'La contraseña debe ser un string',
+			message: 'Debes completar este campo',
 		})
-		.min(3, {
+		.min(6, {
 			message: 'La contraseña debe tener al menos 6 caracteres',
 		})
 		.max(20, {
@@ -37,21 +45,21 @@ export const registerSchema = z.object({
 
 	telefono: z
 		.string({
-			message: 'El teléfono es invalido',
+			message: 'Debes completar este campo',
 		})
-		.startsWith('11', {
-			message: 'El teléfono es invalido',
-		})
-		.min(10, {
+        .min(10, {
 			message: 'El teléfono es invalido',
 		})
 		.max(10, {
 			message: 'El teléfono es invalido',
-		}),
+		})
+		.refine((val) => val.startsWith('11') || val.startsWith('15'), {
+            message: 'El teléfono debe comenzar con 11 o 15',
+        }),		
 
 	domicilio: z
 		.string({
-			message: 'El domicilio debe ser un string',
+			message: 'Debes completar este campo',
 		})
 		.min(3, {
 			message: 'El domicilio debe tener al menos 3 caracteres',
@@ -66,7 +74,7 @@ export const registerSchema = z.object({
 export const loginSchema = z.object({
 	email: z
 		.string({
-			message: 'El email debe ser un string',
+			message: 'Debes completar este campo',
 		})
 		.email({
 			message: 'El email debe ser un email válido',
@@ -74,10 +82,10 @@ export const loginSchema = z.object({
 
 	contraseña: z
 		.string({
-			message: 'La contraseña debe ser un string',
+			message:'Debes completar este campo',
 		})
-		.min(3, {
-			message: 'La contraseña debe tener al menos 3 caracteres',
+		.min(6, {
+			message: 'La contraseña debe tener al menos 6 caracteres',
 		})
 		.max(20, {
 			message: 'La contraseña debe tener como máximo 20 caracteres',
@@ -113,10 +121,13 @@ export const editProfileSchema = z.object({
 		.optional(),
 
 	zona: z
-		.number()
-		.min(0)
-        .max(barriosCABA.length - 1)
-		.optional(),
+		.string({
+			message: 'La zona debe ser un string',
+		})
+		.refine((value) => barriosCABA.includes(value), {
+			message: 'Tipo invalido',
+		})
+        .optional(),
 	telefono: z
 		.string({
 			message: 'El teléfono es invalido',
@@ -136,9 +147,12 @@ export const editProfileSchema = z.object({
 		.string({
 			message: 'La descripción debe ser un string',
 		})
-		.min(3, {
-			message: 'La descripción debe tener al menos 3 caracteres',
+		.min(10, {
+			message: 'La descripción debe tener al menos 10 caracteres',
 		})
+        .max(50, {
+            message: 'La descripción debe tener menos de 50 caracteres'
+        })
 		.optional(),
 
 	foto: z.string().optional(),
@@ -152,7 +166,7 @@ export const editProfileSchema = z.object({
 export const verifyUserSchema = z.object({
 	email: z
 		.string({
-			message: 'El email debe ser un string',
+			message: 'Debes completar este campo',
 		})
 		.email({
 			message: 'El email debe ser un email válido',
@@ -160,7 +174,7 @@ export const verifyUserSchema = z.object({
 
 	telefono: z
 		.string({
-			message: 'El teléfono es invalido',
+			message: 'Debes completar este campo',
 		})
 		.startsWith('11', {
 			message: 'El teléfono es invalido',
@@ -193,10 +207,10 @@ export const resetPasswordSchema = z.object({
 
 	contraseña: z
 		.string({
-			message: 'La contraseña debe ser un string',
+			message: 'Debes completar este campo',
 		})
-		.min(3, {
-			message: 'La contraseña debe tener al menos 3 caracteres',
+		.min(6, {
+			message: 'La contraseña debe tener al menos 6 caracteres',
 		})
 		.max(20, {
 			message: 'La contraseña debe tener como máximo 20 caracteres',

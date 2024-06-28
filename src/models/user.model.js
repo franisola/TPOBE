@@ -41,11 +41,13 @@ const UserSchema = new mongoose.Schema(
 		foto: {
 			type: String,
 			trim: true,
+            default: 'https://firebasestorage.googleapis.com/v0/b/tpoapi-fe3ee.appspot.com/o/image_header.png?alt=media&token=56073619-3c33-4e90-b0c1-57e1e0344439'
 		},
 		zona: {
 			type: String,
 			trim: true,
 			enum: barriosCABA,
+            default: '',
 		},
 		role: {
 			type: Number,

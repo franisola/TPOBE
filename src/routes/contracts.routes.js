@@ -11,11 +11,12 @@ const router = Router();
 
 
 router.post('/:id_service/contracts', authRequired, roleClient, validateSchema(createContractSchema), createContract);
+
+//router.post('/:id_service/contracts', validateSchema(a));
+
 router.get('/contracts', authRequired, rolePetSitter, getContracts);
 router.get('/contracts/:id', authRequired, rolePetSitter, getContract); 
 router.put('/contracts/:id', authRequired, rolePetSitter, validateSchema(updateContractSchema), updateContract);   
-
-
 
 
 

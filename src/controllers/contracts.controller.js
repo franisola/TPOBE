@@ -5,7 +5,7 @@ export const createContract = async (req, res, next) => {
 	const { fechaInicio, fechaFin, horarioReferencia, motivoDelServicio } = req.body;
 	const { id_service } = req.params;
 
-    
+
 
 	const idUser = req.user.id;
 
@@ -44,7 +44,7 @@ export const getContracts = async (req, res, next) => {
 export const getContract = async (req, res, next) => {
 	const { id } = req.params;
 	try {
-		const contract = await Contract.findById(id);
+		const contract = await Contract.findById(id).populate('service').populate('user');
 		res.status(200).json(contract);
 	} catch (error) {
 		next;

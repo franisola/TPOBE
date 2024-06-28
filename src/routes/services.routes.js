@@ -21,7 +21,7 @@ router.post('/services', authRequired, rolePetSitter, validateSchema(createServi
 router.get('/:idUser/services', authRequired, getServices);
 router.get('/services/:id', authRequired, getService);
 router.put('/services/:id', authRequired, rolePetSitter, validateSchema(updateServiceSchema), updateService);
-router.delete('/services/:id', authRequired, rolePetSitter, deleteService);
+router.put('/services/:id/delete', authRequired, rolePetSitter, deleteService);
 
 
 router.get('/services', authRequired, getServiceQuery);

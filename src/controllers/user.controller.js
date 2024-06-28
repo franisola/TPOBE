@@ -10,9 +10,11 @@ import { barriosCABA } from '../config.js';
 export const register = async (req, res, next) => {
 	const { nombre, apellido, email, contraseña, telefono, domicilio, role } = req.body;
 
-	try {
-		const passwordHashed = await bcrypt.hash(contraseña, 10);
 
+
+	try {
+        const passwordHashed = await bcrypt.hash(contraseña, 10);
+        
 		const newUser = await User.create({
 			nombre,
 			apellido,
@@ -51,11 +53,11 @@ export const login = async (req, res, next) => {
 	try {
 		const userFound = await User.findOne({ email: email.toLowerCase() });
 
-		if (!userFound) return next({ message: 'Usuario no encontrado', statusCode: 400 });
+		if (!userFound) return next({ message: 'Usuario no encontrado', key: 'email', statusCode: 400 });
 
 		const isMatch = await bcrypt.compare(contraseña, userFound.contraseña);
 
-		if (!isMatch) return next({ message: 'Contraseña incorrecta', statusCode: 400 });
+		if (!isMatch) return next({ message: 'Contraseña incorrecta', key:'contraseña', statusCode: 400 });
 
 		const token = await createAccessToken({
 			id: userFound._id,
@@ -78,7 +80,7 @@ export const login = async (req, res, next) => {
 	}
 };
 
-export const logout = (req, res) => {
+export const logout = (req, res, next) => {
 	try {
 		res.clearCookie('token');
 		res.send('Logged out');
@@ -112,18 +114,23 @@ export const profile = async (req, res, next) => {
 	}
 };
 
-export const editProfile = async (req, res) => {
+export const editProfile = async (req, res, next) => {
 	req.body.telefono = '549' + req.body.telefono;
 	req.body.email = req.body.email.toLowerCase();
-    req.body.zona = barriosCABA[req.body.zona]
 
+
+    const repeatedEmail = await User.findOne({ email: req.body.email });
+
+    if (repeatedEmail && repeatedEmail._id.toString() !== req.user.id) {
+        return next({ message: 'El email ya está en uso', key: 'email', statusCode: 400 });
+    }
    
 	const user = await User.findByIdAndUpdate(req.user.id, req.body, {
 		new: true,
 	});
 
 	if (!user) {
-		return next({ message: 'Usuario no encontrado', statusCode: 400 });
+		return next({ message: 'Usuario no encontrado',  key: 'email', statusCode: 400 });
 	}
 
 	res.status(200).json(user);
@@ -135,11 +142,11 @@ export const verifyData = async (req, res, next) => {
 	try {
 		const emailFound = await User.findOne({ email });
 
-		if (!emailFound) return next({ message: 'Usuario no encontrado', statusCode: 400 });
+		if (!emailFound) return next({ message: 'Usuario no encontrado', key:'email', statusCode: 400 });
 
 		const telefonoMatch = emailFound.telefono === '549' + telefono;
 
-		if (!telefonoMatch) return next({ message: 'Telefono incorrecto', statusCode: 400 });
+		if (!telefonoMatch) return next({ message: 'Telefono incorrecto', key:'telefono', statusCode: 400 });
 		res.status(200).json(true);
 	} catch (error) {
 		next(error);
@@ -162,13 +169,15 @@ export const changePassword = async (req, res, next) => {
 			}
 		);
 
-		if (!user) return next({ message: 'Usuario no encontrado', statusCode: 400 });
+		if (!user) return next({ message: 'Usuario no encontrado', key: 'email', statusCode: 400 });
 
 		res.status(200).json(user);
 	} catch (error) {
 		next(error);
 	}
 };
+
+
 
 export const getUserFeedBack = async (req, res, next) => {
 	const { id } = req.params;
@@ -208,6 +217,3 @@ export const getUserFeedBack = async (req, res, next) => {
 	}
 };
 
-export const test = (req, res) => {
-	res.json(req.cookies);
-};

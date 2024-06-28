@@ -34,6 +34,10 @@ const serviceSchema = new mongoose.Schema({
 		default: 'Publicado',
 		enum: estado,
 	},
+    zona: {
+        type: String,
+        required: false,
+    },
 	descripcion: {
 		type: String,
 		required: [true, 'Please provide a description'],
@@ -43,6 +47,10 @@ const serviceSchema = new mongoose.Schema({
 		type: Number,
 		default: 1,
 	},
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
