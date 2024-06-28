@@ -6,8 +6,12 @@ export const createServiceSchema = z.object({
 		.string({
 			message: 'Debes completar este campo',
 		})
-		.min(3)
-		.max(30),
+		.min(3, {
+			message: 'El nombre debe tener al menos 3 caracteres',
+		})
+		.max(30, {
+			message: 'El nombre debe tener menos de 30 caracteres',
+		}),
 	categoria: z
 		.string({
 			message: 'Debes completar este campo',
@@ -46,8 +50,12 @@ export const createServiceSchema = z.object({
 		.string({
 			message: 'Debes completar este campo',
 		})
-		.min(10)
-		.max(255),
+		.min(10, {
+            message: 'La descripción debe tener al menos 10 caracteres',
+        })
+		.max(200, {
+            message: 'La descripción debe tener menos de 200 caracteres',
+        }),
 
 	user: z.undefined(),
 	calificacion: z.undefined(),
@@ -114,8 +122,8 @@ export const updateServiceSchema = z.object({
 		.min(10, {
             message: 'La descripción debe tener al menos 10 caracteres',
         })
-		.max(50, {
-            message: 'La descripción debe tener menos de 50 caracteres',
+		.max(200, {
+            message: 'La descripción debe tener menos de 200 caracteres',
         })
 		.optional(),
 

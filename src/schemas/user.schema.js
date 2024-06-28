@@ -7,22 +7,22 @@ export const registerSchema = z.object({
 			message: 'Debes completar este campo',
 		})
 		.min(3, {
-            message: 'El nombre debe tener al menos 3 caracteres',
-        })
+			message: 'El nombre debe tener al menos 3 caracteres',
+		})
 		.max(30, {
-            message: 'El nombre debe tener como máximo 30 caracteres',
-        }),
+			message: 'El nombre debe tener como máximo 30 caracteres',
+		}),
 
 	apellido: z
 		.string({
 			message: 'Debes completar este campo',
 		})
 		.min(3, {
-            message: 'El apellido debe tener al menos 3 caracteres',
-        })
+			message: 'El apellido debe tener al menos 3 caracteres',
+		})
 		.max(30, {
-            message: 'El apellido debe tener como máximo 30 caracteres',
-        }),
+			message: 'El apellido debe tener como máximo 30 caracteres',
+		}),
 
 	email: z
 		.string({
@@ -47,15 +47,15 @@ export const registerSchema = z.object({
 		.string({
 			message: 'Debes completar este campo',
 		})
-        .min(10, {
+		.min(10, {
 			message: 'El teléfono es invalido',
 		})
 		.max(10, {
 			message: 'El teléfono es invalido',
 		})
 		.refine((val) => val.startsWith('11') || val.startsWith('15'), {
-            message: 'El teléfono debe comenzar con 11 o 15',
-        }),		
+			message: 'El teléfono debe comenzar con 11 o 15',
+		}),
 
 	domicilio: z
 		.string({
@@ -82,7 +82,7 @@ export const loginSchema = z.object({
 
 	contraseña: z
 		.string({
-			message:'Debes completar este campo',
+			message: 'Debes completar este campo',
 		})
 		.min(6, {
 			message: 'La contraseña debe tener al menos 6 caracteres',
@@ -127,19 +127,19 @@ export const editProfileSchema = z.object({
 		.refine((value) => barriosCABA.includes(value), {
 			message: 'Tipo invalido',
 		})
-        .optional(),
+		.optional(),
 	telefono: z
 		.string({
-			message: 'El teléfono es invalido',
-		})
-		.startsWith('11', {
-			message: 'El teléfono es invalido',
+			message: 'Debes completar este campo',
 		})
 		.min(10, {
 			message: 'El teléfono es invalido',
 		})
 		.max(10, {
 			message: 'El teléfono es invalido',
+		})
+		.refine((val) => val.startsWith('11') || val.startsWith('15'), {
+			message: 'El teléfono debe comenzar con 11 o 15',
 		})
 		.optional(),
 
@@ -150,9 +150,9 @@ export const editProfileSchema = z.object({
 		.min(10, {
 			message: 'La descripción debe tener al menos 10 caracteres',
 		})
-        .max(50, {
-            message: 'La descripción debe tener menos de 50 caracteres'
-        })
+		.max(200, {
+			message: 'La descripción debe tener menos de 200 caracteres',
+		})
 		.optional(),
 
 	foto: z.string().optional(),
